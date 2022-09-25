@@ -66,7 +66,7 @@ def postdata1():
        device_info = {"mgmt_ip":mgmt_ip,"hostname":hostname,"device_type":device_type,"hosted_dc":hosted_dc}
        return (jsonify(device_info))
     except:
-       return "Invalid Token"
+       return "Invalid Token to access /post-getdevice-info"
 
 
 
