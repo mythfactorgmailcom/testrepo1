@@ -13,7 +13,7 @@ mycursor = conn.cursor()
 
 @app.route("/home")
 def home():
- return "<h1>Hello world v30 </h1>"
+ return "<h1>Hello world v38 </h1>"
 
 
 @app.route('/receive/post',methods=['POST'])
@@ -25,7 +25,7 @@ def receive_post():
     return jsonify(data)
 
 
-@app.route('/post-token',methods=['POST'])
+@app.route('/post-gettoken',methods=['POST'])
 def postlogin():
     auth_val = request.authorization
     uname= auth_val.username
