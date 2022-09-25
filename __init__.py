@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 import jwt
 import psycopg2
+import hashlib
 
 app = Flask(__name__)
 app.config['SECRET_KEY']="secretkey123"
@@ -30,6 +31,8 @@ def postlogin():
     auth_val = request.authorization
     uname= auth_val.username
     passwd = auth_val.password
+    passwd = hashlib.md5(passwd.encode()).hexdigest()
+    
     try:
         fetch_query = "select password from user_tbl where user_id=" + "'" + uname + "'";
         mycursor.execute(fetch_query)
