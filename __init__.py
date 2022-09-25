@@ -13,7 +13,7 @@ mycursor = conn.cursor()
 
 @app.route("/home")
 def home():
- return "<h1>Hello world v38 </h1>"
+ return "<h1>Hello world v40 </h1>"
 
 
 @app.route('/receive/post',methods=['POST'])
@@ -47,19 +47,28 @@ def postlogin():
         return "Invalid username/password"
 
 
-@app.route('/post-getdata',methods=['POST'])
-def postdata():
+
+@app.route('/post-getdevice-info',methods=['POST'])
+def postdata1():
         # return (str(request.headers))
     try:
        tok_val = request.headers['x-auth-token']
        data = jwt.decode(tok_val, key, algorithms="HS256")
-       id = request.json['id']
-       bal = request.json['bal']
-       bal = str(int(bal) + 30)
-       data1 = {'id': id, 'bal': bal,'token-val':data}
-       return (jsonify(data1))
+       mgmt_ip = request.json['mgmt_ip']
+
+       fetch_query = "select hostname,device_type,hosted_dc from deviceinfo_tbl where mgmt_ip=" + "'" + mgmt_ip + "'";
+       mycursor.execute(fetch_query)
+       result = mycursor.fetchall()
+       
+       hostname = result[0][0]
+       device_type = result[0][1]
+       hosted_dc = result[0][2]
+       device_info = {"mgmt_ip":mgmt_ip,"hostname":hostname,"device_type":device_type,"hosted_dc":hosted_dc}
+       return (jsonify(device_info))
     except:
        return "Invalid Token"
+
+
 
 
 if __name__ == "__main__":
