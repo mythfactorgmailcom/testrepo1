@@ -36,7 +36,6 @@ def postlogin():
         result = mycursor.fetchall()
         db_pass = result[0][0]
         if db_pass == passwd:
-            print("apple")
             data = {"uname": uname}
             jwt_encoded = jwt.encode(data, key, algorithm='HS256')
             jwt_token = {"token": jwt_encoded}
@@ -46,6 +45,21 @@ def postlogin():
             return "Invalid username/password"
     except:
         return "Invalid username/password"
+
+
+@app.route('/post-getdata',methods=['POST'])
+def postdata():
+        # return (str(request.headers))
+    try:
+       tok_val = request.headers['x-auth-token']
+       data = jwt.decode(tok_val, key, algorithms="HS256")
+       id = request.json['id']
+       bal = request.json['bal']
+       bal = str(int(bal) + 30)
+       data1 = {'id': id, 'bal': bal,'token-val':data}
+       return (jsonify(data1))
+    except:
+       return "Invalid Token"
 
 
 if __name__ == "__main__":
