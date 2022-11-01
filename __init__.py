@@ -14,7 +14,7 @@ mycursor = conn.cursor()
 
 @app.route("/home")
 def home():
- return "<h1>Hello world v52 </h1>"
+ return "<h1>Hello world v55 </h1>"
 
 
 @app.route('/receive/post',methods=['POST'])
